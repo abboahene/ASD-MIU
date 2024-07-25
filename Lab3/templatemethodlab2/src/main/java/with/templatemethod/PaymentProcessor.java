@@ -1,9 +1,8 @@
 package with.templatemethod;
 
-public class PaymentProcessor {
+public abstract class PaymentProcessor {
 
-	protected void proccessPayment(double amount, String currency, String paymentType, Customer customer,
-                                   VisaCard visaCard, String paypalAddress) {
+	protected void proccessPayment(double amount, String currency, Customer customer) {
 		double dollarAmount = amount;
 
 		if (currency.contentEquals("EUR")) { // European Euro
@@ -17,41 +16,15 @@ public class PaymentProcessor {
 
 		}
 
-		if (paymentType.equals("visa")) {
-			boolean validation = validateVisaCard(visaCard);
-			if (validation) {
-				// logic to perform payment visa card
-				System.out.println("Perform payment with visa card with card number " + visaCard.getCreditCardNumber()
-						+ " and amount $" + dollarAmount);
-
-				// logic to notify customer
-				System.out.println("Notify customer " + customer.getName() + " with email " + customer.getEmail()
-						+ " about visa credit card payment with card number " + visaCard.getCreditCardNumber());
-			}
-		} else if (paymentType.equals("paypal")) {
-
-			boolean validation = validatePaypal(paypalAddress);
-			if (validation) {
-				// logic to perform paypal payment
-				System.out.println("Perform payment with paypal address "+paypalAddress+" and amount $"+dollarAmount);		
-
-				// logic to notify customer
-				System.out.println("Notify customer "+customer.getName()+" with email "+customer.getEmail()+" about paypal payment to address "+paypalAddress);		
-			}
-
+		boolean validation = validatePaymentDetails();
+		if(validation) {
+			makePayment(dollarAmount);
+			notifyCustomer(customer);
 		}
-
 	}
 	
-	private boolean validateVisaCard(VisaCard visaCard) {
-		// logic to validate visa card
-		System.out.println("Validate visa card with card number " + visaCard.getCreditCardNumber());
-        return true;
-	}
+	public abstract boolean validatePaymentDetails();
+	public abstract void makePayment(double dollarAmount);
+	public abstract void notifyCustomer(Customer customer);
 
-	private boolean validatePaypal(String paypalAddress) {
-		// logic to validate paypal address
-		System.out.println("Validate paypal address "+paypalAddress);
-		return true;
-	}
 }
