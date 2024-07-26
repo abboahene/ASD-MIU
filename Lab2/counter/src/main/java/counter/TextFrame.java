@@ -1,4 +1,4 @@
-package counter;
+package main.java.counter;
 import java.awt.Font;
 
 

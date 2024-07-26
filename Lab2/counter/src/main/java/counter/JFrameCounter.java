@@ -1,4 +1,4 @@
-package counter;
+package main.java.counter;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
