@@ -1,4 +1,8 @@
 package main.java.counter;
+import main.java.counter.command.CommandHistory;
+import main.java.counter.command.DecrementCommand;
+import main.java.counter.command.IncrementCommand;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -18,6 +22,8 @@ public class JFrameCounter extends JFrame {
     private JButton jButtonredo = new JButton();
     
     private Counter counter;
+
+    private CommandHistory commandHistory = new CommandHistory();
 
     public JFrameCounter() {
         try {
@@ -93,18 +99,27 @@ public class JFrameCounter extends JFrame {
     }
 
     private void jButtonIncrement_actionPerformed(ActionEvent e) {
-      counter.increment();
+        IncrementCommand incrementCommand = new IncrementCommand(counter);
+        incrementCommand.execute();
+        commandHistory.addCommand(incrementCommand);
     }
 
     private void jButtondecrement_actionPerformed(ActionEvent e) {
-    	counter.decrement();
+
+        DecrementCommand decrementCommand = new DecrementCommand(counter);
+        decrementCommand.execute();
+        commandHistory.addCommand(decrementCommand);
     }
 
     private void jButtonundo_actionPerformed(ActionEvent e) {
-    	System.out.println("undo");
+        System.out.println("undo");
+        commandHistory.undo();
+
     }
 
     private void jButtonredo_actionPerformed(ActionEvent e) {
-    	System.out.println("redo");
+
+        System.out.println("redo");
+        commandHistory.redo();
     }
 }
